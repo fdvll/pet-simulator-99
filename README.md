@@ -1,6 +1,5 @@
-# pet-simulator-99
+# Pet Simulator 99 Scripts
 Scripts I made for PS99
-
 
 ## Auto Balloon
 ```
