@@ -88,7 +88,7 @@ while getgenv().autoBalloon do
         continue
     end
 
-    if not _G.autoBalloon then
+    if not getgenv().autoBalloon then
         break
     end
 
