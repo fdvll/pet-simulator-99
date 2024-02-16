@@ -15,3 +15,16 @@ getgenv().autoBalloonConfig = {
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/autoBalloon.lua"))()
 ```
+
+## Auto Chest
+```
+getgenv().autoChest = true
+
+getgenv().autoChestConfig = {
+    START_DELAY = 1, -- delay before starting
+    SERVER_HOP = true, -- server hop after popping balloons
+    CHEST_BREAK_DELAY = 2, -- delay before server hopping
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/autoChest.lua"))()
+```
