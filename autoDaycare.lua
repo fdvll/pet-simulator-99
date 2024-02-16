@@ -123,7 +123,7 @@ if daycareModule.ComputeRemainingTime(activePetId) == 0 then
     needClaim = true
 end
 
-while getgenv().autoDayCare do
+while getgenv().autoDaycare do
     if daycareAvailable then
         print("Daycare is available")
 
@@ -161,11 +161,11 @@ while getgenv().autoDayCare do
 
         print("Waiting for current daycare pet: " .. tostring(activePetId))
 
-        while daycareModule.ComputeRemainingTime(activePetId) > 0 and getgenv().autoDayCare do
+        while daycareModule.ComputeRemainingTime(activePetId) > 0 and getgenv().autoDaycare do
             task.wait(1)
         end
 
-        if not getgenv().autoDayCare then
+        if not getgenv().autoDaycare then
             break
         end
 
