@@ -2,7 +2,7 @@
 Scripts I made for PS99
 
 ## Auto Balloon
-```
+```lua
 getgenv().autoBalloon = true
 
 getgenv().autoBalloonConfig = {
@@ -17,7 +17,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-9
 ```
 
 ## Auto Chest
-```
+```lua
 getgenv().autoChest = true
 
 getgenv().autoChestConfig = {
