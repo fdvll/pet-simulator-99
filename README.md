@@ -23,6 +23,7 @@ getgenv().autoChest = true
 getgenv().autoChestConfig = {
     START_DELAY = 1, -- delay before starting
     SERVER_HOP = true, -- server hop after popping balloons
+    SERVER_HOP_DELAY = 1, -- delay in seconds before server hopping (set to 0 for no delay)
     CHEST_BREAK_DELAY = 2, -- delay before server hopping
 }
 
