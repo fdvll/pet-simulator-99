@@ -126,6 +126,12 @@ local function breakChest(zone)
 
     ReplicatedStorage.Network.Pets_SetTargetBulk:FireServer(unpack(args))
 
+    local args = {
+        [1] = chest
+    }
+
+    game:GetService("ReplicatedStorage").Network.Breakables_PlayerDealDamage:FireServer(unpack(args))
+
     local brokeChest = false
     local breakableRemovedService = Workspace:WaitForChild("__THINGS").Breakables.ChildRemoved:Connect(function(breakable)
         if breakable.Name == chest then
