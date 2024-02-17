@@ -1,8 +1,20 @@
+getgenv().autoChest = true
+
+getgenv().autoChestConfig = {
+    START_DELAY = 1, -- delay before starting
+    SERVER_HOP = true, -- server hop after breaking all chests
+    SERVER_HOP_DELAY = 1, -- delay in seconds before server hopping (set to 0 for no delay)
+    CHEST_BREAK_DELAY = 2, -- delay before breaking next chest
+    TIMER_SEARCH_DELAY = 0 -- if you are crashing or lagging, increase this value, otherwise leave it as is
+}
+
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/autoChest.lua"))()
+
 local BigChests = {
     [1] = "Beach",
     [2] = "Underworld",
     [3] = "No Path Forest",
-    [4] = "Heaven Gates"
+    -- [4] = "Heaven Gates"
 }
 
 repeat
@@ -126,12 +138,6 @@ local function breakChest(zone)
 
     ReplicatedStorage.Network.Pets_SetTargetBulk:FireServer(unpack(args))
 
-    local args = {
-        [1] = chest
-    }
-
-    game:GetService("ReplicatedStorage").Network.Breakables_PlayerDealDamage:FireServer(unpack(args))
-
     local brokeChest = false
     local breakableRemovedService = Workspace:WaitForChild("__THINGS").Breakables.ChildRemoved:Connect(function(breakable)
         if breakable.Name == chest then
@@ -143,6 +149,11 @@ local function breakChest(zone)
     LocalPlayer.Character.HumanoidRootPart.CFrame = zonePath.INTERACT.BREAKABLE_SPAWNS.Boss.CFrame
 
     repeat
+        local args = {
+            [1] = chest
+        }
+
+        game:GetService("ReplicatedStorage").Network.Breakables_PlayerDealDamage:FireServer(unpack(args))
         task.wait()
     until brokeChest
 
