@@ -24,7 +24,7 @@ end
 
 for _, v in pairs(FakeCharacter:GetDescendants()) do
     if v:IsA("BasePart") then
-        v.Transparency = 0.5
+        v.Transparency = 0
     end
 end
 
@@ -56,7 +56,7 @@ local function RealCharacterDied()
 
     for _, v in pairs(FakeCharacter:GetDescendants()) do
         if v:IsA("BasePart") then
-            v.Transparency = 0.5
+            v.Transparency = 0
         end
     end
 
