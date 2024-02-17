@@ -45,7 +45,7 @@ local function teleportToZone(selectedZone)
         for _, v in pairs(Workspace.Map:GetChildren()) do
             local zoneName = trim(split(v.Name, "|")[2])
             if zoneName and zoneName == selectedZone then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map[v.Name].PERSISTENT.Teleport.CFrame
+                LocalPlayer.Character.HumanoidRootPart.CFrame = Workspace.Map[v.Name].PERSISTENT.Teleport.CFrame
                 teleported = true
                 break
             end
@@ -58,7 +58,7 @@ local function waitForLoad(zone)
     for _, v in pairs(Workspace.Map:GetChildren()) do
         local zoneName = trim(split(v.Name, "|")[2])
         if zoneName and zoneName == zone then
-            zonePath = game:GetService("Workspace").Map[v.Name]
+            zonePath = Workspace.Map[v.Name]
             break
         end
     end
@@ -88,7 +88,7 @@ local function waitForLoad(zone)
 
     if getBreakZonesAmount() < 2 then
         local loaded = false
-        local detectLoad = zonePath.INTERACT.BREAK_ZONES.ChildAdded:Connect(function(child)
+        local detectLoad = zonePath.INTERACT.BREAK_ZONES.ChildAdded:Connect(function(_)
             if getBreakZonesAmount() == 2 then
                 loaded = true
             end
@@ -125,7 +125,7 @@ local function breakChest(zone)
         }
     end
 
-    game:GetService("ReplicatedStorage").Network.Pets_SetTargetBulk:FireServer(unpack(args))
+    ReplicatedStorage.Network.Pets_SetTargetBulk:FireServer(unpack(args))
 
     local brokeChest = false
     local breakableRemovedService = Workspace:WaitForChild("__THINGS").Breakables.ChildRemoved:Connect(function(breakable)
@@ -144,111 +144,130 @@ local function breakChest(zone)
     breakableRemovedService:Disconnect()
 end
 
+local function isWithinRange(part)
+    return (LocalPlayer.Character.HumanoidRootPart.CFrame.Position - part.CFrame.Position).magnitude <= 300
+end
 
+local function autoChest()
+    local sortedKeys = {}
+    for key in pairs(BigChests) do
+        table.insert(sortedKeys, key)
+    end
+    table.sort(sortedKeys)
+
+    for _, key in ipairs(sortedKeys) do
+        local zoneName = BigChests[key]
+
+        print("Starting " .. zoneName)
+
+        teleportToZone(zoneName)
+        waitForLoad(zoneName)
+
+        local timerFound = false
+
+        while not timerFound do
+            for _, v in pairs(game:GetService("Workspace").__DEBRIS:GetChildren()) do
+                local timer
+                local isTimer, _ = pcall(function()
+                    timer = v.ChestTimer.Timer.Text
+                end)
+
+                if v.Name == "host" and isTimer and isWithinRange(v)then
+
+                    timerFound = true
+
+                    if timer == "00:00" then
+                        print(zoneName .. " chest is available")
+                        breakChest(zoneName)
+                    else
+                        print(zoneName .. " chest is not available " .. timer)
+                    end
+
+                    print(timer)
+
+                    break
+                end
+            end
+            task.wait()
+        end
+
+        warn("Finished " .. zoneName)
+        task.wait(getgenv().autoChestConfig.CHEST_BREAK_DELAY)
+    end
+end
 
 require(Library.Client.PlayerPet).CalculateSpeedMultiplier = function()
     return 200
 end
 
-local sortedKeys = {}
-for key in pairs(BigChests) do
-    table.insert(sortedKeys, key)
-end
-table.sort(sortedKeys)
+while getgenv().autoChest do
+    local originalPosition = LocalPlayer.Character.HumanoidRootPart.CFrame
 
-for _, key in ipairs(sortedKeys) do
-    local zoneName = BigChests[key]
+    autoChest()
 
-    print("Starting " .. zoneName)
+    if not getgenv().autoChestConfig.SERVER_HOP then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = originalPosition
+        print("Waiting 10 minutes for chests to respawn")
+        task.wait(600)
+    else
+        print("Server hopping in " .. getgenv().autoChestConfig.SERVER_HOP_DELAY .. " seconds")
+        task.wait(getgenv().autoChestConfig.SERVER_HOP_DELAY)
 
-    teleportToZone(zoneName)
-    waitForLoad(zoneName)
-    task.wait()
-
-    task.wait(2)
-    for _, v in pairs(game:GetService("Workspace").__DEBRIS:GetChildren()) do
-
-        if v.Name == "host" then
-            local timer
-
-            pcall(function()
-                timer = v.ChestTimer.Timer.Text
-            end)
-
-            if timer ~= nil then
-                if timer == "00:00" or timer == "09:59" then
-                    print(zoneName .. " chest is available")
-                    breakChest(zoneName)
-                else
-                    print(zoneName .. " chest is not available " .. timer)
-                end
-                v:Destroy()
-                break
+        local PlaceID = game.PlaceId
+        local AllIDs = {}
+        local foundAnything = ""
+        local actualHour = os.date("!*t").hour
+        local function tp()
+            local Site;
+            if foundAnything == "" then
+                Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8737899170/servers/Public?sortOrder=Asc&limit=100'))
+            else
+                Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8737899170/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
             end
-        end
-    end
-    warn("Finished " .. zoneName)
-    task.wait(getgenv().autoChestConfig.CHEST_BREAK_DELAY)
-end
-
-if getgenv().autoChestConfig.SERVER_HOP then
-    print("Server hopping in " .. tostring(getgenv().autoChestConfig.SERVER_HOP_DELAY) .. " seconds")
-    task.wait(getgenv().autoChestConfig.SERVER_HOP_DELAY)
-
-    local PlaceID = game.PlaceId
-    local AllIDs = {}
-    local foundAnything = ""
-    local actualHour = os.date("!*t").hour
-    local function tp()
-        local Site;
-        if foundAnything == "" then
-            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8737899170/servers/Public?sortOrder=Asc&limit=100'))
-        else
-            Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/8737899170/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-        end
-        local ID = ""
-        if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-            foundAnything = Site.nextPageCursor
-        end
-        local num = 0;
-        for i,v in pairs(Site.data) do
-            local Possible = true
-            ID = tostring(v.id)
-            if tonumber(v.maxPlayers) > tonumber(v.playing) then
-                for _,Existing in pairs(AllIDs) do
-                    if num ~= 0 then
-                        if ID == tostring(Existing) then
-                            Possible = false
+            local ID = ""
+            if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+                foundAnything = Site.nextPageCursor
+            end
+            local num = 0;
+            for i, v in pairs(Site.data) do
+                local Possible = true
+                ID = tostring(v.id)
+                if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                    for _,Existing in pairs(AllIDs) do
+                        if num ~= 0 then
+                            if ID == tostring(Existing) then
+                                Possible = false
+                            end
+                        else
+                            if tonumber(actualHour) ~= tonumber(Existing) then
+                                pcall(function()
+                                    AllIDs = {}
+                                    table.insert(AllIDs, actualHour)
+                                end)
+                            end
                         end
-                    else
-                        if tonumber(actualHour) ~= tonumber(Existing) then
-                            pcall(function()
-                                AllIDs = {}
-                                table.insert(AllIDs, actualHour)
-                            end)
-                        end
+                        num = num + 1
                     end
-                    num = num + 1
-                end
-                if Possible == true then
-                    table.insert(AllIDs, ID)
-                    task.wait()
-                    pcall(function()
+                    if Possible == true then
+                        table.insert(AllIDs, ID)
                         task.wait()
-                        game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-                    end)
-                    task.wait(4)
+                        pcall(function()
+                            task.wait()
+                            game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                        end)
+                        task.wait(4)
+                    end
                 end
             end
         end
-    end
 
-    while task.wait() do
-        pcall(function()
-            tp()
-            if foundAnything ~= "" then
+        while task.wait() do
+            pcall(function()
                 tp()
-            end
-        end)
+                if foundAnything ~= "" then
+                    tp()
+                end
+            end)
+        end
     end
 end
