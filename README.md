@@ -1,5 +1,6 @@
 # Pet Simulator 99 Scripts
-Scripts I made for PS99
+All scripts are made by me
+Discord server: https://discord.gg/ettP4TjbAb
 
 ## Auto Balloon
 ```lua
