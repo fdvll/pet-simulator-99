@@ -1,19 +1,3 @@
-getgenv().START_DELAY = 1 -- delay before starting
-getgenv().SWITCH_DELAY = 2 -- delay before switching to autoChest
-getgenv().SERVER_HOP_DELAY = 1 -- delay in seconds before server hopping
-
-getgenv().autoBalloonConfig = {
-    BALLOON_DELAY = 1, -- delay before popping next balloon (if there are multiple balloons in the server)
-    GET_BALLOON_DELAY = 1 -- delay before getting balloons again if none are detected
-}
-
-getgenv().autoChestConfig = {
-    CHEST_BREAK_DELAY = 2, -- delay before breaking next chest
-    TIMER_SEARCH_DELAY = 1 -- if you are crashing or lagging, increase this value, otherwise leave it as is
-}
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/autoBalloonAndChest.lua"))()
-
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Library = ReplicatedStorage:WaitForChild("Library")
