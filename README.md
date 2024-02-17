@@ -1,6 +1,5 @@
 # Pet Simulator 99 Scripts
-All scripts are made by me
-Discord server: https://discord.gg/ettP4TjbAb
+All scripts are made by me for free. Discord server: https://discord.gg/ettP4TjbAb
 
 ## Auto Balloon
 ```lua
