@@ -10,7 +10,10 @@ local function getServer()
     end
 end
 
+game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, getServer().id, game.Players.LocalPlayer)
+
+task.wait(10)
 while true do
-    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, getServer().id, game.Players.LocalPlayer)
-    task.wait(10)
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+    task.wait()
 end
