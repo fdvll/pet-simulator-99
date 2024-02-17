@@ -183,8 +183,6 @@ local function autoChest()
                         print(zoneName .. " chest is not available " .. timer)
                     end
 
-                    print(timer)
-
                     break
                 end
             end
