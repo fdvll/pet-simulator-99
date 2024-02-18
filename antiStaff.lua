@@ -2,7 +2,7 @@ local WAITING = false
 
 local function serverhop(player)
     local timeToWait = Random.new():NextInteger(300, 600)
-    print("[SAFETY] BIG Games staff (" .. player.Name ..  ") is in server! Waiting for " .. tostring(timeToWait) .. " seconds before server hopping...")
+    print("[ANTI-STAFF] BIG Games staff (" .. player.Name ..  ") is in server! Waiting for " .. tostring(timeToWait) .. " seconds before server hopping...")
     task.wait(timeToWait)
 
     local success, _ = pcall(function()
@@ -10,8 +10,10 @@ local function serverhop(player)
     end)
 
     if not success then
-        game.Players.LocalPlayer:Kick("[SAFETY] A BIG Games staff member joined and script was unable to server hop")
+        game.Players.LocalPlayer:Kick("[ANTI-STAFF] A BIG Games staff member joined and script was unable to server hop")
     end
+
+    print("[ANTI-STAFF] No staff member detected, continuing...")
 end
 
 for _, player in pairs(game.Players:GetPlayers()) do
