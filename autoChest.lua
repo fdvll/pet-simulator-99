@@ -198,6 +198,11 @@ local function autoChest()
         end
 
         warn("Finished " .. zoneName)
+
+        if _G.STAFF_DETECTED then
+            return
+        end
+
         task.wait(getgenv().autoChestConfig.CHEST_BREAK_DELAY)
     end
 end
@@ -210,6 +215,11 @@ while getgenv().autoChest do
     local originalPosition = LocalPlayer.Character.HumanoidRootPart.CFrame
 
     autoChest()
+
+    if _G.STAFF_DETECTED then
+        getgenv().autoChest = false
+        break
+    end
 
     if not getgenv().autoChestConfig.SERVER_HOP then
         LocalPlayer.Character.HumanoidRootPart.CFrame = originalPosition
