@@ -9,6 +9,8 @@ repeat
     task.wait()
 until game:IsLoaded()
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/antiStaff.lua"))()
+
 task.wait(getgenv().autoChestConfig.START_DELAY)
 
 local Workspace = game:GetService("Workspace")
