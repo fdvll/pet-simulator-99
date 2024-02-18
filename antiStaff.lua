@@ -15,12 +15,18 @@ local function serverhop(player)
 end
 
 for _, player in pairs(game.Players:GetPlayers()) do
-    if player:IsInGroup(5060810) then
-        WAITING = true
-        serverhop(player)
+    local success, _ = pcall(function()
+        if player:IsInGroup(5060810) then
+            WAITING = true
+            serverhop(player)
+        end
+    end)
+    if not success then
+        print("[ANTI-STAFF] Error while checking player: " .. player.Name)
     end
-    print("[ANTI-STAFF] No staff member detected")
 end
+
+print("[ANTI-STAFF] No staff member detected")
 
 game.Players.PlayerAdded:Connect(function(player)
     if player:IsInGroup(5060810) and not WAITING then
