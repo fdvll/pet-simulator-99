@@ -19,7 +19,7 @@ for _, player in pairs(game.Players:GetPlayers()) do
         WAITING = true
         serverhop(player)
     end
-    print("[ANTI-STAFF] No staff member detected, continuing...")
+    print("[ANTI-STAFF] No staff member detected")
 end
 
 game.Players.PlayerAdded:Connect(function(player)
