@@ -12,8 +12,6 @@ local function serverhop(player)
     if not success then
         game.Players.LocalPlayer:Kick("[ANTI-STAFF] A BIG Games staff member joined and script was unable to server hop")
     end
-
-    print("[ANTI-STAFF] No staff member detected, continuing...")
 end
 
 for _, player in pairs(game.Players:GetPlayers()) do
@@ -21,6 +19,7 @@ for _, player in pairs(game.Players:GetPlayers()) do
         WAITING = true
         serverhop(player)
     end
+    print("[ANTI-STAFF] No staff member detected, continuing...")
 end
 
 game.Players.PlayerAdded:Connect(function(player)
