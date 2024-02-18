@@ -32,6 +32,10 @@ game.Players.PlayerAdded:Connect(function(player)
     if player:IsInGroup(5060810) and not WAITING then
         getgenv().autoBalloon = false
         getgenv().autoChest = false
+
+        _G.STAFF_DETECTED = true
+
+        print("[ANTI-STAFF] Staff member joined, stopping all scripts")
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
         local _, zoneData = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil).GetZoneFromNumber(Random.new():NextInteger(40, 90))
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map[tostring(zoneData["_script"])].PERSISTENT.Teleport.CFrame
