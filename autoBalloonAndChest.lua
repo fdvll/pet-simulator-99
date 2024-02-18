@@ -6,11 +6,9 @@ local Library = ReplicatedStorage:WaitForChild("Library")
 local Client = Library:WaitForChild("Client")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
-
 require(Library.Client.PlayerPet).CalculateSpeedMultiplier = function()
     return 200
 end
-
 
 local BigChests = {
     [1] = "Beach",
@@ -76,6 +74,10 @@ else
 
         print("Popped balloon, waiting " .. tostring(getgenv().autoBalloonConfig.BALLOON_DELAY) .. " seconds")
         task.wait(getgenv().autoBalloonConfig.BALLOON_DELAY)
+
+        if _G.STAFF_DETECTED then
+            return
+        end
     end
 
     LocalPlayer.Character.HumanoidRootPart.Anchored = false
@@ -84,6 +86,9 @@ end
 
 task.wait(getgenv().SWITCH_DELAY)
 
+if _G.STAFF_DETECTED then
+    return
+end
 
 local zonePath
 
@@ -262,11 +267,20 @@ local function autoChest()
         end
 
         warn("Finished " .. zoneName)
+
+        if _G.STAFF_DETECTED then
+            return
+        end
+
         task.wait(getgenv().autoChestConfig.CHEST_BREAK_DELAY)
     end
 end
 
 autoChest()
+
+if _G.STAFF_DETECTED then
+    return
+end
 
 print("Server hopping in " .. tostring(getgenv().SERVER_HOP_DELAY) .. " seconds")
 task.wait(getgenv().SERVER_HOP_DELAY)
