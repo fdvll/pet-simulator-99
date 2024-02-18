@@ -111,20 +111,22 @@ local function breakChest(zone)
         task.wait()
     end
 
-    local args = {
-        [1] = {
+    if getgenv().autoChestConfig.SEND_PETS then
+        local args = {
+            [1] = {
 
+            }
         }
-    }
 
-    for petId, _ in pairs(require(Client.Save).Get(LocalPlayer).EquippedPets) do
-        args[1][petId] = {
-            ["targetValue"] = chest,
-            ["targetType"] = "Player"
-        }
+        for petId, _ in pairs(require(Client.Save).Get(LocalPlayer).EquippedPets) do
+            args[1][petId] = {
+                ["targetValue"] = chest,
+                ["targetType"] = "Player"
+            }
+        end
+
+        ReplicatedStorage.Network.Pets_SetTargetBulk:FireServer(unpack(args))
     end
-
-    ReplicatedStorage.Network.Pets_SetTargetBulk:FireServer(unpack(args))
 
     local brokeChest = false
     local breakableRemovedService = Workspace:WaitForChild("__THINGS").Breakables.ChildRemoved:Connect(function(breakable)
