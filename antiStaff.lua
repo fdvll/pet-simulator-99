@@ -22,7 +22,7 @@ for _, player in pairs(game.Players:GetPlayers()) do
         end
     end)
     if not success then
-        print("[ANTI-STAFF] Error while checking player: " .. player.Name)
+        print("[ANTI-STAFF] Error while checking player: " .. player)
     end
 end
 
