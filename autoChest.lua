@@ -1,3 +1,5 @@
+print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
+
 local BigChests = {
     [1] = "Beach",
     [2] = "Underworld",
