@@ -34,7 +34,7 @@ game.Players.PlayerAdded:Connect(function(player)
         getgenv().autoChest = false
         getgenv().autoFishing = false
 
-        _G.STAFF_DETECTED = true
+        getgenv().STAFF_DETECTED = true
 
         print("[ANTI-STAFF] Staff member joined, stopping all scripts")
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
