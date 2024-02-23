@@ -35,7 +35,7 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     until loaded
 
     detectLoad:Disconnect()
-    task.wait(1)
+    task.wait(2)
 end
 
 pcall(function()
