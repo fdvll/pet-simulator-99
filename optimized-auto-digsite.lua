@@ -38,22 +38,24 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     task.wait(1)
 end
 
-for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-    if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
-        v:Destroy()
+pcall(function()
+    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
+        if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+            v:Destroy()
+        end
     end
-end
 
-for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:GetChildren()) do
-    if string.find(v.Name, "hill") or string.find(v.Name, "Flower") or string.find(v.Name, "rock") or string.find(v.Name, "Meshes") or string.find(v.Name, "Sign") or string.find(v.Name, "Wood") or v.Name == "Model" then
-        v:Destroy()
+    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:GetChildren()) do
+        if string.find(v.Name, "hill") or string.find(v.Name, "Flower") or string.find(v.Name, "rock") or string.find(v.Name, "Meshes") or string.find(v.Name, "Sign") or string.find(v.Name, "Wood") or v.Name == "Model" then
+            v:Destroy()
+        end
     end
-end
 
-game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:WaitForChild("Important").Merchant:Destroy()
-game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
+    game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:WaitForChild("Important").Merchant:Destroy()
+    game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
+end)
 
 local function findBlock()
     local dist = 9999
