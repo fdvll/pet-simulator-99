@@ -40,7 +40,7 @@ end
 
 pcall(function()
     for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-        if table.find({"Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+        if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
             v:Destroy()
         end
     end
