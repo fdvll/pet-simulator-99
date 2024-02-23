@@ -56,6 +56,22 @@ pcall(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
 end)
 
+game:GetService("Workspace").__THINGS:FindFirstChild("Lootbags").ChildAdded:Connect(function(lootbag)
+    task.wait()
+    if lootbag then
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack( { [1] = { [1] = lootbag.Name, }, } ))
+        lootbag:Destroy()
+    end
+end)
+
+game:GetService("Workspace").__THINGS:FindFirstChild("Orbs").ChildAdded:Connect(function(orb)
+    task.wait()
+    if orb then
+        game:GetService("ReplicatedStorage").Network:FindFirstChild("Orbs: Collect"):FireServer(unpack( { [1] = { [1] = tonumber(orb.Name), }, } ))
+        orb:Destroy()
+    end
+end)
+
 local function findBlock()
     local dist = 9999
     local block = nil
