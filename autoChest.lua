@@ -201,7 +201,7 @@ local function autoChest()
 
         warn("Finished " .. zoneName)
 
-        if _G.STAFF_DETECTED then
+        if getgenv().STAFF_DETECTED then
             return
         end
 
@@ -218,7 +218,7 @@ while getgenv().autoChest do
 
     autoChest()
 
-    if _G.STAFF_DETECTED then
+    if getgenv().STAFF_DETECTED then
         getgenv().autoChest = false
         break
     end
