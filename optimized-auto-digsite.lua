@@ -40,7 +40,7 @@ end
 
 pcall(function()
     for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-        if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+        if table.find({"Ornaments", "Instances", "Ski Chairs"}, v.Name) then
             v:Destroy()
         end
     end
@@ -96,7 +96,7 @@ while getgenv().autoDigsite do
     local block = findBlock()
 
     if not chest then
-        if (os.clock() - noChestCount > 30) then
+        if (os.clock() - noChestCount > getgenv().NO_CHEST_SERVER_HOP) then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
         end
     else
