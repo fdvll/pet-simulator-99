@@ -32,6 +32,7 @@ game.Players.PlayerAdded:Connect(function(player)
     if player:IsInGroup(5060810) and not WAITING then
         getgenv().autoBalloon = false
         getgenv().autoChest = false
+        getgenv().autoFishing = false
 
         _G.STAFF_DETECTED = true
 
