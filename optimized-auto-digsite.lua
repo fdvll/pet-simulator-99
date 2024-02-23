@@ -96,7 +96,7 @@ while getgenv().autoDigsite do
     local block = findBlock()
 
     if not chest then
-        if (os.clock() - noChestCount > 20) then
+        if (os.clock() - noChestCount > 30) then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
         end
     else
