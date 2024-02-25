@@ -24,6 +24,14 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
 
     local loaded = false
+
+    task.spawn(function()
+        task.wait(getgenv().autoDigsiteConfig.NOT_LOADED_SERVER_HOP_DELAY)
+        if not loaded then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
+        end
+    end)
+
     local detectLoad = game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.ChildAdded:Connect(function(child)
         if child.Name == "Digsite" then
             loaded = true
@@ -35,26 +43,25 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     until loaded
 
     detectLoad:Disconnect()
-    task.wait(2)
+    task.wait(1)
 end
 
-pcall(function()
-    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-        if table.find({"Ornaments", "Instances", "Ski Chairs"}, v.Name) then
-            v:Destroy()
-        end
+for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
+    if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+        v:Destroy()
     end
+end
 
-    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:GetChildren()) do
-        if string.find(v.Name, "hill") or string.find(v.Name, "Flower") or string.find(v.Name, "rock") or string.find(v.Name, "Meshes") or string.find(v.Name, "Sign") or string.find(v.Name, "Wood") or v.Name == "Model" then
-            v:Destroy()
-        end
+for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:GetChildren()) do
+    if string.find(v.Name, "hill") or string.find(v.Name, "Flower") or string.find(v.Name, "rock") or string.find(v.Name, "Meshes") or string.find(v.Name, "Sign") or string.find(v.Name, "Wood") or v.Name == "Model" then
+        v:Destroy()
     end
+end
 
-    game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
+game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.Digsite:WaitForChild("Important").Merchant:Destroy()
+game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
-end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
 
 local function findBlock()
     local dist = 9999
@@ -89,14 +96,13 @@ end
 
 local noChestCount = os.clock()
 
-getgenv().autoDigsite = true
 while getgenv().autoDigsite do
     local chest = findChest()
     local block = findBlock()
 
     if not chest then
-        if (os.clock() - noChestCount > getgenv().NO_CHEST_SERVER_HOP) then
-            task.wait(getgenv().SERVER_HOP_DELAY)
+        if (os.clock() - noChestCount > getgenv().autoDigsiteConfig.NO_CHEST_SERVER_HOP) then
+            task.wait(getgenv().autoDigsiteConfig.SERVER_HOP_DELAY)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
         end
     else
