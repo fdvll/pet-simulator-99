@@ -46,6 +46,10 @@ else
 end
 
 if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite") then
+    print(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+    while not game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame do
+        task.wait()
+    end
     game.Players.LocalPlayer:FindFirstChild("Character").HumanoidRootPart.CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
 
     local loaded = false
