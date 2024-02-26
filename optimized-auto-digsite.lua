@@ -45,7 +45,7 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
         task.wait()
     until loaded
 
-    print9("Game loaded " .. tostring(loaded))
+    print("Game loaded " .. tostring(loaded))
     detectLoad:Disconnect()
     task.wait(1)
 end
