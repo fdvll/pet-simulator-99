@@ -47,8 +47,12 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     task.wait(1)
 end
 
+while #game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() < 5 do
+    task.wait()
+end
+
 for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-    if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+    if table.find({"Ornaments", "Instances", "Ski Chairs"}, v.Name) then
         v:Destroy()
     end
 end
@@ -59,7 +63,7 @@ for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INST
     end
 end
 
-game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.Digsite:WaitForChild("Important").Merchant:Destroy()
+-- game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.Digsite:WaitForChild("Important").Merchant:Destroy()
 game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
