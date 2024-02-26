@@ -20,14 +20,16 @@ else
     end)
 end
 
-local loaded = false
-
 if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite") then
     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
+
+    local loaded = false
 
     task.spawn(function()
         task.wait(getgenv().autoDigsiteConfig.NOT_LOADED_SERVER_HOP_DELAY)
         if not loaded then
+            print("Game not loaded, server hopping")
+            task.wait(getgenv().autoDigsiteConfig.SERVER_HOP_DELAY)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
         end
     end)
@@ -41,7 +43,7 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     repeat
         task.wait()
     until loaded
-    print(loaded)
+
     detectLoad:Disconnect()
     task.wait(1)
 end
