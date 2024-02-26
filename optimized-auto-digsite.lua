@@ -20,10 +20,10 @@ else
     end)
 end
 
+local loaded = false
+
 if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite") then
     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
-
-    local loaded = false
 
     task.spawn(function()
         task.wait(getgenv().autoDigsiteConfig.NOT_LOADED_SERVER_HOP_DELAY)
@@ -41,7 +41,7 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     repeat
         task.wait()
     until loaded
-
+    print(loaded)
     detectLoad:Disconnect()
     task.wait(1)
 end
