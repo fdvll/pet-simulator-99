@@ -46,7 +46,7 @@ else
 end
 
 if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFirstChild("Digsite") then
-    game:GetService("Players").LocalPlayer:WaitForChild("Character"):WaitForChild("HumanoidRootPart").CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
+    game.Players.LocalPlayer:WaitForChild("Character").HumanoidRootPart.CFrame = game:GetService("Workspace").__THINGS.Instances.Digsite.Teleports.Enter.CFrame
 
     local loaded = false
 
@@ -75,12 +75,6 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     task.wait(1)
 end
 
-print("Loading")
-while #game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() < 5 do
-    task.wait()
-end
-print("Loaded")
-
 for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
     if table.find({"Ornaments", "Instances", "Ski Chairs"}, v.Name) then
         v:Destroy()
@@ -96,6 +90,11 @@ end
 game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
+
+
+while #game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.Digsite.Important.ActiveBlocks:GetChildren() < 5 do
+    task.wait()
+end
 
 local function findBlock()
     local dist = 9999
