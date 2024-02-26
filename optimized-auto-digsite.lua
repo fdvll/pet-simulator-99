@@ -28,8 +28,6 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     task.spawn(function()
         task.wait(getgenv().autoDigsiteConfig.NOT_LOADED_SERVER_HOP_DELAY)
         if not loaded then
-            print(tostring(loaded))
-            print("Game not loaded, server hopping")
             task.wait(getgenv().autoDigsiteConfig.SERVER_HOP_DELAY)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/serverhop.lua"))()
         end
@@ -45,7 +43,6 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
         task.wait()
     until loaded
 
-    print("Game loaded " .. tostring(loaded))
     detectLoad:Disconnect()
     task.wait(1)
 end
