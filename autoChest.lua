@@ -1,11 +1,23 @@
 print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
 
-local BigChests = {
-    [1] = "Beach",
-    [2] = "Underworld",
-    [3] = "No Path Forest",
-    [4] = "Heaven Gates"
-}
+local BigChests
+local mapPath
+
+if game.PlaceId == 8737899170 then
+    mapPath = game:GetService("Workspace").Map
+    BigChests = {
+        [1] = "Beach",
+        [2] = "Underworld",
+        [3] = "No Path Forest",
+        [4] = "Heaven Gates"
+    }    
+elseif game.PlaceId == 16498369169 then
+    mapPath = game:GetService("Workspace").Map2
+    BigChests = {
+        [1] = "Cuboid Canyon"
+    }
+end
+
 
 repeat
     task.wait()
@@ -20,8 +32,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Library = ReplicatedStorage:WaitForChild("Library")
 local Client = Library:WaitForChild("Client")
 local LocalPlayer = game:GetService("Players").LocalPlayer
-
-local zonePath
 
 local function trim(string)
     if not string then
@@ -41,14 +51,16 @@ local function split(input, separator)
     return parts
 end
 
+local zonePath
+
 local function teleportToZone(selectedZone)
     local teleported = false
 
     while not teleported do
-        for _, v in pairs(Workspace.Map:GetChildren()) do
+        for _, v in pairs(mapPath:GetChildren()) do
             local zoneName = trim(split(v.Name, "|")[2])
             if zoneName and zoneName == selectedZone then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = Workspace.Map[v.Name].PERSISTENT.Teleport.CFrame
+                LocalPlayer.Character.HumanoidRootPart.CFrame = mapPath[v.Name].PERSISTENT.Teleport.CFrame
                 teleported = true
                 break
             end
@@ -58,10 +70,10 @@ local function teleportToZone(selectedZone)
 end
 
 local function waitForLoad(zone)
-    for _, v in pairs(Workspace.Map:GetChildren()) do
+    for _, v in pairs(mapPath:GetChildren()) do
         local zoneName = trim(split(v.Name, "|")[2])
         if zoneName and zoneName == zone then
-            zonePath = Workspace.Map[v.Name]
+            zonePath = mapPath[v.Name]
             break
         end
     end
@@ -146,7 +158,6 @@ local function breakChest(zone)
         local args = {
             [1] = chest
         }
-
         game:GetService("ReplicatedStorage").Network.Breakables_PlayerDealDamage:FireServer(unpack(args))
         task.wait()
     until brokeChest
@@ -176,7 +187,7 @@ local function autoChest()
         local timerFound = false
 
         while not timerFound do
-            for _, v in pairs(game:GetService("Workspace").__DEBRIS:GetChildren()) do
+            for _, v in pairs(Workspace.__DEBRIS:GetChildren()) do
                 local timer
                 local isTimer, _ = pcall(function()
                     timer = v.ChestTimer.Timer.Text
