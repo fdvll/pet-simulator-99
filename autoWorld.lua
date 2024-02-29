@@ -36,7 +36,7 @@ local function teleportToMaxZone()
             zonePath = v
         end
     end
-    LocalPlayer.Character.HumanoidRootPart.CFrame = zonePath.PERSISTENT.Teleport.CFrame
+    LocalPlayer.Character.HumanoidRootPart.CFrame = zonePath.PERSISTENT.Teleport.CFrame + Vector3.new(0, 10, 0)
     task.wait()
 
     if not zonePath:FindFirstChild("INTERACT") then
