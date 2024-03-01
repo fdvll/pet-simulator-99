@@ -26,4 +26,6 @@ repeat
     task.wait()
 until game:GetService("Workspace").__THINGS and game:GetService("Workspace").__DEBRIS
 
+task.wait(5)
+
 print("[CLIENT] Loaded Game")
