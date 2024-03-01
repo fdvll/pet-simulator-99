@@ -1,5 +1,6 @@
 print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/waitForGameLoad.lua"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/antiStaff.lua"))()
 
 local Workspace = game:GetService("Workspace")
