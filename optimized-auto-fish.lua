@@ -1,9 +1,6 @@
 print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
 
-repeat
-    task.wait()
-until game:IsLoaded()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/waitForGameLoad.lua"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/antiStaff.lua"))()
 
 game.Players.LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
