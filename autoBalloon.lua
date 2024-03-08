@@ -17,7 +17,7 @@ while getgenv().autoBalloon do
     for i, v in pairs(getActiveBalloons) do
         if not v.Popped then
             allPopped = false
-            print("Unpopped balloon found in " .. tostring(v.ZoneId))
+            print("Unpopped balloon found")
             balloonIds[i] = v
         end
     end
@@ -40,7 +40,7 @@ while getgenv().autoBalloon do
     LocalPlayer.Character.HumanoidRootPart.Anchored = true
     for balloonId, balloonData in pairs(balloonIds) do
 
-        print("Popping balloon in " .. balloonData.ZoneId)
+        print("Popping balloon")
 
         local balloonPosition = balloonData.Position
 
