@@ -17,7 +17,7 @@ while getgenv().autoBalloon do
     for i, v in pairs(getActiveBalloons) do
         if not v.Popped then
             allPopped = false
-            print("Unpopped balloon found in " .. v.ZoneId)
+            print("Unpopped balloon found in " .. tostring(v.ZoneId))
             balloonIds[i] = v
         end
     end
