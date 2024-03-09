@@ -60,6 +60,49 @@ end)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
 
+for _, v in pairs(game.Players:GetChildren()) do
+    for _, v2 in pairs(v.Character:GetDescendants()) do
+        if v2:IsA("BasePart") or v2:IsA("Decal") then
+            v2.Transparency = 1
+        end
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        for _, v in pairs(character:GetDescendants()) do
+            if v:IsA("BasePart") or v:IsA("Decal") then
+                v.Transparency = 1
+            end
+        end
+    end)
+end)
+
+
+for _, v in pairs(game:GetDescendants()) do
+	if v:IsA("Part") or v:IsA("BasePart") then
+		v.Transparency = 1
+	end
+end
+
+for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+    if v:IsA("ScreenGui") then
+        v.Enabled = false
+    end
+end
+
+for i, v in pairs(game:GetService("StarterGui"):GetChildren()) do
+    if v:IsA("ScreenGui") then
+        v.Enabled = false
+    end
+end
+
+for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
+    if v:IsA("ScreenGui") then
+        v.Enabled = false
+    end
+end
+
 getgenv().autoFishing = true
 while getgenv().autoFishing do
     local castVector = Vector3.new(1403.54736328125 + Random.new():NextInteger(0, 20), 61.62470245361328, -4472.0439453125 + Random.new():NextInteger(0, 20))
