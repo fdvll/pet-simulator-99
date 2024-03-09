@@ -38,8 +38,27 @@ game.Players.PlayerAdded:Connect(function(player)
 
         print("[ANTI-STAFF] Staff member joined, stopping all scripts")
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        local _, zoneData = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil).GetZoneFromNumber(Random.new():NextInteger(40, 90))
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Map[tostring(zoneData["_script"])].PERSISTENT.Teleport.CFrame
+
+        local world
+        local mapPath
+        if game.PlaceId == 8737899170 then
+            mapPath = game:GetService("Workspace").Map
+            world = "World 1"
+        elseif game.PlaceId == 16498369169 then
+            mapPath = game:GetService("Workspace").Map2
+            world = "World 1"
+        end
+
+
+        local _, zoneData
+
+        if world == "World 1" then
+            _, zoneData = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil).GetZoneFromNumber(Random.new():NextInteger(40, 90))
+        else
+            _, zoneData = require(game:GetService("ReplicatedStorage").Library.Util.ZonesUtil).GetZoneFromNumber(Random.new():NextInteger(5, 20))
+        end
+
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = mapPath[tostring(zoneData["_script"])].PERSISTENT.Teleport.CFrame
 
         serverhop(player)
     end
