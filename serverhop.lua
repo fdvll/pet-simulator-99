@@ -10,9 +10,11 @@ local function getServer()
     end
 end
 
-game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, getServer().id, game.Players.LocalPlayer)
+pcall(function()
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, getServer().id, game.Players.LocalPlayer)
+end)
 
-task.wait(10)
+task.wait(5)
 while true do
     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
     task.wait()
