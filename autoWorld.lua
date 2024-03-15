@@ -113,18 +113,19 @@ task.spawn(function()
         local success, _ = game:GetService("ReplicatedStorage").Network.Zones_RequestPurchase:InvokeServer(nextZoneName)
         if success then
             print("Successfully purchased " .. nextZoneName)
-            -- CHECK IF CAN REBIRTH
             if getgenv().autoWorldConfig.AUTO_REBIRTH then
-                if nextZoneData.ZoneNumber >= rebirthZone then
-                    print("Rebirthing")
-                    game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
-                    task.wait(15)
-                    nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
-                    if nextRebirthData then
-                        rebirthNumber = nextRebirthData.RebirthNumber
-                        rebirthZone = nextRebirthData.ZoneNumberRequired
+                pcall(function()
+                    if nextZoneData.ZoneNumber >= rebirthZone then
+                        print("Rebirthing")
+                        game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
+                        task.wait(15)
+                        nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
+                        if nextRebirthData then
+                            rebirthNumber = nextRebirthData.RebirthNumber
+                            rebirthZone = nextRebirthData.ZoneNumberRequired
+                        end
                     end
-                end
+                end)
             end
             teleportToMaxZone()
         end
