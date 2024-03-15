@@ -112,7 +112,7 @@ task.spawn(function()
             if getgenv().autoWorldConfig.AUTO_REBIRTH and nextZoneData.ZoneNumber >= rebirthZone then
                 print("Rebirthing")
                 game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
-                task.wait(10)
+                task.wait(15)
                 nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
                 rebirthNumber = nextRebirthData.RebirthNumber
                 rebirthZone = nextRebirthData.ZoneNumberRequired
