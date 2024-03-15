@@ -66,7 +66,7 @@ local function teleportToMaxZone()
 
     LocalPlayer.Character.HumanoidRootPart.CFrame = closestBreakZone.CFrame + Vector3.new(0, 10, 0)
 
-    if maxZoneData.ZoneNumber >= getgenv().ZONE_TO_REACH then
+    if maxZoneData.ZoneNumber >= getgenv().autoWorldConfig.ZONE_TO_REACH then
         print("Reached selected zone")
         unfinished = false
     end
@@ -96,16 +96,30 @@ Workspace.__THINGS:FindFirstChild("Orbs").ChildAdded:Connect(function(orb)
     end
 end)
 
+
+local nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
+local rebirthNumber = nextRebirthData.RebirthNumber
+local rebirthZone = nextRebirthData.ZoneNumberRequired
+
 task.spawn(function()
     print("Starting zone purchase service")
     while unfinished do
-        local nextZoneName, _ = require(game.ReplicatedStorage.Library.Client.ZoneCmds).GetNextZone()
+        local nextZoneName, nextZoneData = require(game:GetService("ReplicatedStorage").Library.Client.ZoneCmds).GetNextZone()
         local success, _ = game:GetService("ReplicatedStorage").Network.Zones_RequestPurchase:InvokeServer(nextZoneName)
         if success then
             print("Successfully purchased " .. nextZoneName)
+            -- CHECK IF CAN REBIRTH
+            if getgenv().autoWorldConfig.AUTO_REBIRTH and nextZoneData.ZoneNumber >= rebirthZone then
+                print("Rebirthing")
+                game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
+                task.wait(10)
+                nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
+                rebirthNumber = nextRebirthData.RebirthNumber
+                rebirthZone = nextRebirthData.ZoneNumberRequired
+            end
             teleportToMaxZone()
         end
-        task.wait()
+        task.wait(getgenv().autoWorldConfig.PURCHASE_CHECK_DELAY)
     end
 end)
 
