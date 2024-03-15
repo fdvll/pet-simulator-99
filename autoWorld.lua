@@ -1,12 +1,3 @@
-getgenv().autoWorldConfig = {
-    AUTO_REBIRTH = true,
-    ZONE_TO_REACH = 124,
-    PURCHASE_CHECK_DELAY = 1
-}
--- Max Zone For World 1: 99
--- Max Zone For World 2: 124
-
-
 print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/waitForGameLoad.lua"))()
@@ -123,14 +114,16 @@ task.spawn(function()
         if success then
             print("Successfully purchased " .. nextZoneName)
             -- CHECK IF CAN REBIRTH
-            if getgenv().autoWorldConfig.AUTO_REBIRTH and nextZoneData.ZoneNumber >= rebirthZone then
-                print("Rebirthing")
-                game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
-                task.wait(15)
-                nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
-                if nextRebirthData then
-                    rebirthNumber = nextRebirthData.RebirthNumber
-                    rebirthZone = nextRebirthData.ZoneNumberRequired
+            if getgenv().autoWorldConfig.AUTO_REBIRTH then
+                if nextZoneData.ZoneNumber >= rebirthZone then
+                    print("Rebirthing")
+                    game:GetService("ReplicatedStorage").Network.Rebirth_Request:InvokeServer(tostring(rebirthNumber))
+                    task.wait(15)
+                    nextRebirthData = require(game:GetService("ReplicatedStorage").Library.Client.RebirthCmds).GetNextRebirth()
+                    if nextRebirthData then
+                        rebirthNumber = nextRebirthData.RebirthNumber
+                        rebirthZone = nextRebirthData.ZoneNumberRequired
+                    end
                 end
             end
             teleportToMaxZone()
