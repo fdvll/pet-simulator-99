@@ -18,7 +18,7 @@ if game.PlaceId == 8737899170 then
 elseif game.PlaceId == 16498369169 then
     repeat
         task.wait(1)
-    until #game:GetService("Workspace").Map2:GetChildren() == 26
+    until #game:GetService("Workspace").Map2:GetChildren() == 51
 end
 
 
