@@ -1,7 +1,7 @@
 local WAITING = false
 
 local function serverhop(player)
-    local timeToWait = Random.new():NextInteger(300, 600)
+    local timeToWait = Random.new():NextInteger(30, 60)
     print("[ANTI-STAFF] BIG Games staff (" .. player.Name ..  ") is in server! Waiting for " .. tostring(timeToWait) .. " seconds before server hopping...")
     task.wait(timeToWait)
 
@@ -30,13 +30,12 @@ print("[ANTI-STAFF] No staff member detected")
 
 game.Players.PlayerAdded:Connect(function(player)
     if player:IsInGroup(5060810) and not WAITING then
+        print("[ANTI-STAFF] Staff member joined, stopping all scripts")
         getgenv().autoBalloon = false
         getgenv().autoChest = false
         getgenv().autoFishing = false
 
         getgenv().STAFF_DETECTED = true
-
-        print("[ANTI-STAFF] Staff member joined, stopping all scripts")
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 
         local world
@@ -46,7 +45,7 @@ game.Players.PlayerAdded:Connect(function(player)
             world = "World 1"
         elseif game.PlaceId == 16498369169 then
             mapPath = game:GetService("Workspace").Map2
-            world = "World 1"
+            world = "World 2"
         end
 
 
