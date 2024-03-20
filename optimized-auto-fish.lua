@@ -35,91 +35,95 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     task.wait(1)
 end
 
-local advancedFishing = game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing
-advancedFishing.Debris:ClearAllChildren()
-advancedFishing.Model:Destroy()
+if getgenv().autoFishingConfig.OPTIMIZE_GAME then
+    local advancedFishing = game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing
+    advancedFishing.Debris:ClearAllChildren()
+    advancedFishing.Model:Destroy()
 
-pcall(function()
-    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
-        if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
-            v:Destroy()
+    pcall(function()
+        for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
+            if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
+                v:Destroy()
+            end
         end
-    end
 
-    for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing:GetChildren()) do
-        if string.find(v.Name, "Interactable") then
-            v:FindFirstChild("Merchant"):Destroy()
-        elseif string.find(v.Name, "Model") or string.find(v.Name, "Water") or string.find(v.Name, "Debris") then
-            v:Destroy()
-        elseif v.Name == "Map" then
-            for _, v in pairs(v:GetChildren()) do
-                if v.Name ~= "Union" then
-                    v:Destroy()
+        for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing:GetChildren()) do
+            if string.find(v.Name, "Interactable") then
+                v:FindFirstChild("Merchant"):Destroy()
+            elseif string.find(v.Name, "Model") or string.find(v.Name, "Water") or string.find(v.Name, "Debris") then
+                v:Destroy()
+            elseif v.Name == "Map" then
+                for _, v in pairs(v:GetChildren()) do
+                    if v.Name ~= "Union" then
+                        v:Destroy()
+                    end
                 end
             end
         end
-    end
 
-    game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
-end)
+        game:GetService("Workspace"):WaitForChild("ALWAYS_RENDERING"):Destroy()
+    end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/cpuReducer.lua"))()
 
-for _, v in pairs(game.Players:GetChildren()) do
-    for _, v2 in pairs(v.Character:GetDescendants()) do
-        if v2:IsA("BasePart") or v2:IsA("Decal") then
-            v2.Transparency = 1
-        end
-    end
-end
-
-game.Players.PlayerAdded:Connect(function(player)
-    player.CharacterAdded:Connect(function(character)
-        for _, v in pairs(character:GetDescendants()) do
-            if v:IsA("BasePart") or v:IsA("Decal") then
-                v.Transparency = 1
+    for _, v in pairs(game.Players:GetChildren()) do
+        for _, v2 in pairs(v.Character:GetDescendants()) do
+            if v2:IsA("BasePart") or v2:IsA("Decal") then
+                v2.Transparency = 1
             end
         end
+    end
+
+    game.Players.PlayerAdded:Connect(function(player)
+        player.CharacterAdded:Connect(function(character)
+            for _, v in pairs(character:GetDescendants()) do
+                if v:IsA("BasePart") or v:IsA("Decal") then
+                    v.Transparency = 1
+                end
+            end
+        end)
     end)
-end)
 
 
-for _, v in pairs(game:GetDescendants()) do
-	if v:IsA("Part") or v:IsA("BasePart") then
-		v.Transparency = 1
-	end
-end
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("BasePart") then
+            v.Transparency = 1
+        end
+    end
 
-for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
-    if v:IsA("ScreenGui") then
-        v.Enabled = false
+    for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+        if v:IsA("ScreenGui") then
+            v.Enabled = false
+        end
+    end
+
+    for i, v in pairs(game:GetService("StarterGui"):GetChildren()) do
+        if v:IsA("ScreenGui") then
+            v.Enabled = false
+        end
+    end
+
+    for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
+        if v:IsA("ScreenGui") then
+            v.Enabled = false
+        end
     end
 end
 
-for i, v in pairs(game:GetService("StarterGui"):GetChildren()) do
-    if v:IsA("ScreenGui") then
-        v.Enabled = false
-    end
+if getgenv().autoFishingConfig.HIDE_PLAYER then
+    local LocalPlayer = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+    LocalPlayer.Anchored = true
+    LocalPlayer.CFrame = LocalPlayer.CFrame + Vector3.new(Random.new():NextInteger(-10, 10), -30, Random.new():NextInteger(-10, 10))
+
+    local platform = Instance.new("Part")
+    platform.Parent = game:GetService("Workspace")
+    platform.Anchored = true
+    platform.CFrame = LocalPlayer.CFrame + Vector3.new(0, -5, 0)
+    platform.Size = Vector3.new(5, 1, 5)
+    platform.Transparency = 1
+
+    LocalPlayer.Anchored = false
 end
-
-for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
-    if v:IsA("ScreenGui") then
-        v.Enabled = false
-    end
-end
-
-local LocalPlayer = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-LocalPlayer.Anchored = true
-LocalPlayer.CFrame = LocalPlayer.CFrame + Vector3.new(Random.new():NextInteger(-10, 10), -30, Random.new():NextInteger(-10, 10))
-
-local platform = Instance.new("Part")
-platform.Parent = game:GetService("Workspace")
-platform.Anchored = true
-platform.CFrame = LocalPlayer.CFrame + Vector3.new(0, -5, 0)
-platform.Size = Vector3.new(5, 1, 5)
-platform.Transparency = 1
-
-LocalPlayer.Anchored = false
 
 while getgenv().autoFishing do
     local deepPool
