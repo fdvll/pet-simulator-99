@@ -1,10 +1,10 @@
 print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/waitForGameLoad.lua"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/fdvll/pet-simulator-99/main/antiStaff.lua"))()
 
-game.Players.LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
+local Network = game:GetService("ReplicatedStorage"):WaitForChild("Network")
 
+game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Core["Idle Tracking"].Enabled = false
 if getconnections then
     for _, v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
         v:Disable()
@@ -34,6 +34,11 @@ if not game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active:FindFir
     detectLoad:Disconnect()
     task.wait(1)
 end
+
+local advancedFishing = game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing
+advancedFishing.Debris:ClearAllChildren()
+advancedFishing.Model:Destroy()
+
 pcall(function()
     for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS"):GetChildren()) do
         if table.find({"ShinyRelics", "Ornaments", "Instances", "Ski Chairs"}, v.Name) then
@@ -42,11 +47,11 @@ pcall(function()
     end
 
     for _, v in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing:GetChildren()) do
-        if string.find(v.Name, "Model") or string.find(v.Name, "Water") or string.find(v.Name, "Debris") or string.find(v.Name, "Interactable") then
+        if string.find(v.Name, "Interactable") then
+            v:FindFirstChild("Merchant"):Destroy()
+        elseif string.find(v.Name, "Model") or string.find(v.Name, "Water") or string.find(v.Name, "Debris") then
             v:Destroy()
-        end
-
-        if v.Name == "Map" then
+        elseif v.Name == "Map" then
             for _, v in pairs(v:GetChildren()) do
                 if v.Name ~= "Union" then
                     v:Destroy()
@@ -103,11 +108,37 @@ for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
     end
 end
 
-getgenv().autoFishing = true
-while getgenv().autoFishing do
-    local castVector = Vector3.new(1403.54736328125 + Random.new():NextInteger(0, 20), 61.62470245361328, -4472.0439453125 + Random.new():NextInteger(0, 20))
+local LocalPlayer = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+LocalPlayer.Anchored = true
+LocalPlayer.CFrame = LocalPlayer.CFrame + Vector3.new(Random.new():NextInteger(-10, 10), -30, Random.new():NextInteger(-10, 10))
 
-    game:GetService("ReplicatedStorage").Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", castVector)
+local platform = Instance.new("Part")
+platform.Parent = game:GetService("Workspace")
+platform.Anchored = true
+platform.CFrame = LocalPlayer.CFrame + Vector3.new(0, -5, 0)
+platform.Size = Vector3.new(5, 1, 5)
+platform.Transparency = 1
+
+LocalPlayer.Anchored = false
+
+while getgenv().autoFishing do
+    local deepPool
+    for _, instance in pairs(game:GetService("Workspace"):FindFirstChild("__THINGS").__INSTANCE_CONTAINER.Active.AdvancedFishing:FindFirstChild("Interactable"):GetChildren()) do
+        if instance.Name == "DeepPool" then
+            deepPool = instance
+            break
+        end
+    end
+
+    local castVector
+    if deepPool then
+        -- MAXIMUM: -/+ 5
+        castVector = Vector3.new(deepPool.Position.X + Random.new():NextNumber(-4.75, 4.75), deepPool.Position.Y, deepPool.Position.Z + Random.new():NextNumber(-4.75, 4.75))
+    else
+        castVector = Vector3.new(1480.482421875 + Random.new():NextInteger(-20, 20), 61.62470245361328, -4451.23583984375 + Random.new():NextInteger(-20, 20))
+    end
+
+    Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestCast", castVector)
 
     local bobbers = game:GetService("Workspace").__THINGS.__INSTANCE_CONTAINER.Active.AdvancedFishing.Bobbers
     bobbers:ClearAllChildren()
@@ -143,9 +174,9 @@ while getgenv().autoFishing do
         task.wait()
     end
 
-    game:GetService("ReplicatedStorage").Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
+    Network.Instancing_FireCustomFromClient:FireServer("AdvancedFishing", "RequestReel")
 
     while game.Players.LocalPlayer.Character.Model.Rod:FindFirstChild("FishingLine") do
-        game:GetService("ReplicatedStorage").Network.Instancing_InvokeCustomFromClient:InvokeServer("AdvancedFishing", "Clicked")
+        Network.Instancing_InvokeCustomFromClient:InvokeServer("AdvancedFishing", "Clicked")
     end
 end
