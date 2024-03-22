@@ -1,3 +1,5 @@
+print("Made By firedevil (Ryan | 404678244215029762 | https://discord.gg/ettP4TjbAb)")
+
 local relics = {}
 for i,v in pairs(game:GetService("ReplicatedStorage").Network.Relics_Request:InvokeServer()) do
     relics[i] = v
